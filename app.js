@@ -1,29 +1,38 @@
 // ======================================
-// APURA SUS
-// CONSOLIDA«√O POR CENTRO DE CUSTO
+// FERRAMENTA AUXILIAR PARA LAN√áAMENTOS DO APURA SUS
+// por: Guilherme Paicheco Ferreira
 // ======================================
 
-// ---------- CENTROS PADR√O ----------
+// Tenho que lembrar de alterar um bocado de coisa e padronizar de tal forma que se aplique para n√£o s√≥ a minha unidade
 
+// ---------- CENTROS PADR√ÉO----------
+
+// Por enquanto s√≥ o caso do RH, devo verificar se √© s√≥ isso mesmo depois ou se falta mais algum!
 let centrosDeCusto = [
 
     "ACS 01",
     "ACS 02",
     "ACS 03",
 
-    "AUXILIAR ENFERMAGEM 01",
+    "TECNICO DE ENFERMAGEM DE APOIO",
+    "TECNICO DE ENFERMAGEM 01",
+    "TECNICO DE ENFERMAGEM 02",
+    "TECNICO DE ENFERMAGEM 03",
 
-    "CONDOMÕNIO",
+    "CONDOM√çNIO",
 
     "ENFERMEIRO 01",
     "ENFERMEIRO 02",
     "ENFERMEIRO 03",
 
-    "FARM¡CIA",
+    "FARM√ÅCIA",
 
-    "GER NCIA",
+    "GER√äNCIA",
 
-    "M…DICA 01",
+    "M√âDICA DE APOIO",
+    "M√âDICA 01",
+    "M√âDICA 02",
+    "M√âDICA 03",
 
     "NASF",
 
@@ -37,7 +46,7 @@ let centrosDeCusto = [
 
 ];
 
-// ---------- MEM”RIA ----------
+// ---------- MEM√ìRIA (local pra n√£o dar problema kakaka) ----------
 
 let memoriaFuncionarios =
     JSON.parse(
@@ -56,7 +65,14 @@ let funcionarios = [];
 
 let consolidacao = {};
 
-// ---------- ELEMENTOS ----------
+let historicoCompetencias =
+    JSON.parse(
+        localStorage.getItem(
+            "historicoCompetencias"
+        )
+    ) || {};
+
+// ---------- ELEMENTOS VISUAIS ----------
 
 const arquivoInput =
     document.getElementById("arquivo");
@@ -77,7 +93,7 @@ const rodapeConsolidacao =
     document.getElementById("rodapeConsolidacao");
 
 // ======================================
-// FORMATA«√O
+// PARTE DA FORMATA√á√ÉO
 // ======================================
 
 function moeda(valor) {
@@ -113,7 +129,7 @@ function numero(valor) {
 }
 
 // ======================================
-// UPLOAD
+// PARTE DO UPLOAD
 // ======================================
 
 arquivoInput.addEventListener(
@@ -192,7 +208,7 @@ async function processarArquivo() {
 }
 
 // ======================================
-// LIMPEZA
+// PARTE DA LIMPEZA DA PLANILHA
 // ======================================
 
 function carregarPlanilha(worksheet) {
@@ -211,7 +227,7 @@ function carregarPlanilha(worksheet) {
     dados =
         dados.slice(4);
 
-    // Remove rodapÈ
+    // Remove rodap√©
 
     const indiceRodape =
         dados.findIndex(
@@ -255,7 +271,7 @@ function carregarPlanilha(worksheet) {
         );
 
     console.log(
-        "CabeÁalho encontrado:",
+        "Cabe√ßalho encontrado:",
         dados[0]
     );
 
@@ -390,7 +406,7 @@ function converterParaObjetos(dados) {
 }
 
 // ======================================
-// FUNCION¡RIOS
+// PARTE DOS FUNCION√ÅRIOS (lembrar de adicionar conforme planilha)
 // ======================================
 
 function montarFuncionarios() {
@@ -508,7 +524,7 @@ function montarFuncionarios() {
 }
 
 // ======================================
-// MEM”RIA AUTOM¡TICA
+// MEM√ìRIA "AUTOM√ÅTICA"
 // ======================================
 
 document.addEventListener(
@@ -553,7 +569,7 @@ document.addEventListener(
 );
 
 // ======================================
-// CENTROS DE CUSTO
+// PARTE DOS CENTROS DE CUSTO (acho que ainda d√° pra melhorar)
 // ======================================
 
 const modalCentro =
@@ -612,7 +628,7 @@ function salvarCentro() {
     ) {
 
         alert(
-            "Centro j· existe."
+            "Centro j√° existe."
         );
 
         return;
@@ -632,7 +648,7 @@ function salvarCentro() {
 }
 
 // ======================================
-// GERAR CONSOLIDA«√O
+// GERAR CONSOLIDA√á√ÉO (lembrar de adicionar o cruzamento dos dados com o relat√≥rio do ApuraSUS)
 // ======================================
 
 document
@@ -653,7 +669,7 @@ document
             ) {
 
                 alert(
-                    "Existem funcion·rios sem Centro de Custo."
+                    "Existem funcion√°rios sem Centro de Custo."
                 );
 
                 return;
@@ -667,7 +683,7 @@ document
 
 
 // ======================================
-// CONSOLIDA«√O
+// CONSOLIDA√á√ÉO
 // ======================================
 
 function gerarConsolidacao() {
@@ -710,7 +726,7 @@ function gerarConsolidacao() {
         }
 
         // ==================================
-        // REMUNERA«√O
+        // REMUNERA√á√ÉO
         // ==================================
 
         consolidacao[centro].remuneracaoEstatutario +=
@@ -735,7 +751,7 @@ function gerarConsolidacao() {
             );
 
         // ==================================
-        // BENEFÕCIOS
+        // BENEF√çCIOS
         // ==================================
 
         consolidacao[centro].beneficioEstatutario +=
@@ -769,11 +785,12 @@ function gerarConsolidacao() {
     });
 
     renderizarConsolidacao();
+    salvarCompetenciaAtual();
 
 }
 
 // ======================================
-// TABELA FINAL
+// TABELA FINAL EXIBIDA PRO ADMINISTRATIVO
 // ======================================
 
 function renderizarConsolidacao() {
@@ -896,7 +913,7 @@ function copiarResultado() {
     let texto = "";
 
     texto +=
-        "CENTRO DE CUSTOS\tREMUNERA«√O ESTATUT¡RIO\tREMUNERA«√O - CLT\tREMUNERA«√O MUNICIPAL\tBENEFÕCIO ESTATUT¡RIO\tBENEFÕCIO MUNICIPAL\tHORA EXTRA\n";
+        "CENTRO DE CUSTOS\tREMUNERA√á√ÉO ESTATUT√ÅRIO\tREMUNERA√á√ÉO - CLT\tREMUNERA√á√ÉO MUNICIPAL\tBENEF√çCIO ESTATUT√ÅRIO\tBENEF√çCIO MUNICIPAL\tHORA EXTRA\n";
 
     Object.keys(
         consolidacao
@@ -922,5 +939,166 @@ function copiarResultado() {
             );
 
         });
+
+}
+
+
+const selectAno =
+    document.getElementById(
+        "anoSelecionado"
+    );
+
+for (
+    let ano = 2022;
+    ano <= 2026;
+    ano++
+) {
+
+    selectAno.innerHTML += `
+        <option value="${ano}">
+            ${ano}
+        </option>
+    `;
+
+}
+
+selectAno.value =
+    new Date().getFullYear();
+
+function salvarCompetenciaAtual() {
+
+    const ano =
+        document.getElementById(
+            "anoSelecionado"
+        ).value;
+
+    const mes =
+        document.getElementById(
+            "mesSelecionado"
+        ).value;
+
+    historicoCompetencias[
+        ano
+    ] ??= {};
+
+    historicoCompetencias[
+        ano
+    ][mes] =
+        structuredClone(
+            consolidacao
+        );
+
+    localStorage.setItem(
+        "historicoCompetencias",
+        JSON.stringify(
+            historicoCompetencias
+        )
+    );
+
+}
+
+document
+    .getElementById(
+        "btnResetarCompetencia"
+    )
+    .addEventListener(
+        "click",
+        resetarCompetencia
+    );
+
+function resetarCompetencia() {
+
+    const ano =
+        document.getElementById(
+            "anoSelecionado"
+        ).value;
+
+    const mes =
+        document.getElementById(
+            "mesSelecionado"
+        ).value;
+
+    if (
+        !historicoCompetencias[
+            ano
+        ]?.[
+            mes
+        ]
+    ) {
+
+        alert(
+            "N√£o existe nada salvo nesta compet√™ncia."
+        );
+
+        return;
+
+    }
+
+    const confirmar =
+        confirm(
+            `Deseja apagar ${mes}/${ano}?`
+        );
+
+    if (!confirmar)
+        return;
+
+    delete historicoCompetencias[
+        ano
+    ][mes];
+
+    localStorage.setItem(
+        "historicoCompetencias",
+        JSON.stringify(
+            historicoCompetencias
+        )
+    );
+
+    alert(
+        "Compet√™ncia removida."
+    );
+
+}
+
+document.getElementById(
+        "mesSelecionado"
+    )
+    .addEventListener(
+        "change",
+        carregarCompetencia
+    );
+
+document.getElementById(
+        "anoSelecionado"
+    )
+    .addEventListener(
+        "change",
+        carregarCompetencia
+    );
+
+function carregarCompetencia() {
+
+    const ano =
+        document.getElementById(
+            "anoSelecionado"
+        ).value;
+
+    const mes =
+        document.getElementById(
+            "mesSelecionado"
+        ).value;
+
+    const dados =
+        historicoCompetencias[
+            ano
+        ]?.[
+            mes
+        ];
+
+    if (!dados)
+        return;
+
+    consolidacao = dados;
+
+    renderizarConsolidacao();
 
 }
