@@ -65,6 +65,13 @@ let funcionarios = [];
 
 let consolidacao = {};
 
+let historicoCompetencias =
+    JSON.parse(
+        localStorage.getItem(
+            "historicoCompetencias"
+        )
+    ) || {};
+
 // ---------- ELEMENTOS VISUAIS ----------
 
 const arquivoInput =
@@ -778,6 +785,7 @@ function gerarConsolidacao() {
     });
 
     renderizarConsolidacao();
+    salvarCompetenciaAtual();
 
 }
 
@@ -931,5 +939,166 @@ function copiarResultado() {
             );
 
         });
+
+}
+
+
+const selectAno =
+    document.getElementById(
+        "anoSelecionado"
+    );
+
+for (
+    let ano = 2022;
+    ano <= 2026;
+    ano++
+) {
+
+    selectAno.innerHTML += `
+        <option value="${ano}">
+            ${ano}
+        </option>
+    `;
+
+}
+
+selectAno.value =
+    new Date().getFullYear();
+
+function salvarCompetenciaAtual() {
+
+    const ano =
+        document.getElementById(
+            "anoSelecionado"
+        ).value;
+
+    const mes =
+        document.getElementById(
+            "mesSelecionado"
+        ).value;
+
+    historicoCompetencias[
+        ano
+    ] ??= {};
+
+    historicoCompetencias[
+        ano
+    ][mes] =
+        structuredClone(
+            consolidacao
+        );
+
+    localStorage.setItem(
+        "historicoCompetencias",
+        JSON.stringify(
+            historicoCompetencias
+        )
+    );
+
+}
+
+document
+    .getElementById(
+        "btnResetarCompetencia"
+    )
+    .addEventListener(
+        "click",
+        resetarCompetencia
+    );
+
+function resetarCompetencia() {
+
+    const ano =
+        document.getElementById(
+            "anoSelecionado"
+        ).value;
+
+    const mes =
+        document.getElementById(
+            "mesSelecionado"
+        ).value;
+
+    if (
+        !historicoCompetencias[
+            ano
+        ]?.[
+            mes
+        ]
+    ) {
+
+        alert(
+            "Não existe nada salvo nesta competência."
+        );
+
+        return;
+
+    }
+
+    const confirmar =
+        confirm(
+            `Deseja apagar ${mes}/${ano}?`
+        );
+
+    if (!confirmar)
+        return;
+
+    delete historicoCompetencias[
+        ano
+    ][mes];
+
+    localStorage.setItem(
+        "historicoCompetencias",
+        JSON.stringify(
+            historicoCompetencias
+        )
+    );
+
+    alert(
+        "Competência removida."
+    );
+
+}
+
+document.getElementById(
+        "mesSelecionado"
+    )
+    .addEventListener(
+        "change",
+        carregarCompetencia
+    );
+
+document.getElementById(
+        "anoSelecionado"
+    )
+    .addEventListener(
+        "change",
+        carregarCompetencia
+    );
+
+function carregarCompetencia() {
+
+    const ano =
+        document.getElementById(
+            "anoSelecionado"
+        ).value;
+
+    const mes =
+        document.getElementById(
+            "mesSelecionado"
+        ).value;
+
+    const dados =
+        historicoCompetencias[
+            ano
+        ]?.[
+            mes
+        ];
+
+    if (!dados)
+        return;
+
+    consolidacao = dados;
+
+    renderizarConsolidacao();
 
 }
