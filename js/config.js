@@ -1,0 +1,25 @@
+// ---------- CENTROS PADRÃO ----------
+window.centrosDeCusto = [
+    "ACS 01",
+    "ACS 02",
+    "ACS 03",
+    "TECNICO DE ENFERMAGEM DE APOIO",
+    "TECNICO DE ENFERMAGEM 01",
+    "TECNICO DE ENFERMAGEM 02",
+    "TECNICO DE ENFERMAGEM 03",
+    "CONDOMÍNIO",
+    "ENFERMEIRO 01",
+    "ENFERMEIRO 02",
+    "ENFERMEIRO 03",
+    "FARMÁCIA",
+    "GERÊNCIA",
+    "MÉDICA DE APOIO",
+    "MÉDICA 01",
+    "MÉDICA 02",
+    "MÉDICA 03",
+    "NASF",
+    "PEDIATRA",
+    "PROCEDIMENTOS",
+    "RECEPCIONISTA",
+    "VACINA"
+];

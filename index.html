@@ -1,12 +1,12 @@
 <!--  FERRAMENTA AUXILIAR PARA LANÇAMENTOS DO APURA SUS
       por: Guilherme Paicheco Ferreira
-      Devo ver o JS, deixei anotações lá! -->
+      Estilo: Glassmorphic Slate & Emerald Dashboard (Premium SaaS) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>APURA SUS - Consolidador</title>
+  <title>APURA SUS - Consolidador & Orientador</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -14,45 +14,136 @@
 </head>
 <body>
 
+<!-- LOGIN / ONBOARDING OVERLAY -->
+<div id="loginOverlay" class="login-overlay d-none">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">
+        <svg width="32" height="32" viewBox="0 0 28 28" fill="none">
+          <rect width="12" height="12" rx="3" fill="#6366f1" opacity="0.9"/>
+          <rect x="16" width="12" height="12" rx="3" fill="#6366f1" opacity="0.6"/>
+          <rect y="16" width="12" height="12" rx="3" fill="#6366f1" opacity="0.6"/>
+          <rect x="16" y="16" width="12" height="12" rx="3" fill="#10b981" opacity="0.8"/>
+        </svg>
+      </div>
+      <h2 class="login-title">Bem-vindo ao ApuraSUS</h2>
+      <p class="login-subtitle">Consolidador & Orientador de Lançamentos</p>
+    </div>
+    <div class="login-body">
+      <div class="mb-3">
+        <label class="modal-label">Seu Nome Completo</label>
+        <input type="text" id="loginNome" class="custom-input" placeholder="Ex: Guilherme Paicheco Ferreira">
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="modal-label">Mês de Implantação</label>
+          <select id="loginMesInicio" class="form-select">
+            <option value="01">Janeiro</option>
+            <option value="02">Fevereiro</option>
+            <option value="03">Março</option>
+            <option value="04">Abril</option>
+            <option value="05">Maio</option>
+            <option value="06">Junho</option>
+            <option value="07">Julho</option>
+            <option value="08">Agosto</option>
+            <option value="09">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11" selected>Novembro</option>
+            <option value="12">Dezembro</option>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="modal-label">Ano de Implantação</label>
+          <input type="number" id="loginAnoInicio" class="custom-input" value="2022" min="2020" max="2030">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="modal-label">Mês Limite (Fim)</label>
+          <select id="loginMesFim" class="form-select">
+            <option value="01">Janeiro</option>
+            <option value="02">Fevereiro</option>
+            <option value="03" selected>Março</option>
+            <option value="04">Abril</option>
+            <option value="05">Maio</option>
+            <option value="06">Junho</option>
+            <option value="07">Julho</option>
+            <option value="08">Agosto</option>
+            <option value="09">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="modal-label">Ano Limite (Fim)</label>
+          <input type="number" id="loginAnoFim" class="custom-input" value="2026" min="2020" max="2030">
+        </div>
+      </div>
+
+      <button id="btnSalvarLogin" class="btn-primary-custom w-100 mt-3">Começar Orientações</button>
+    </div>
+  </div>
+</div>
+
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-brand">
     <div class="brand-icon">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
         <rect width="12" height="12" rx="3" fill="#fff" opacity="0.9"/>
         <rect x="16" width="12" height="12" rx="3" fill="#fff" opacity="0.6"/>
         <rect y="16" width="12" height="12" rx="3" fill="#fff" opacity="0.6"/>
-        <rect x="16" y="16" width="12" height="12" rx="3" fill="#fff" opacity="0.3"/>
+        <rect x="16" y="16" width="12" height="12" rx="3" fill="#10b981" opacity="0.9"/>
       </svg>
     </div>
     <div class="brand-text">
       <span class="brand-name">ApuraSUS</span>
-      <span class="brand-sub">Consolidador</span>
+      <span class="brand-sub">Orientador Geral</span>
     </div>
   </div>
 
   <nav class="sidebar-nav">
     <span class="nav-label">Módulos</span>
 
-    <a href="#" class="nav-item active" data-tab="rh" onclick="switchTab('rh', this)">
+    <a href="#" class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard', this)">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-        <circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        <rect x="3" y="3" width="7" height="9" rx="1"/>
+        <rect x="14" y="3" width="7" height="5" rx="1"/>
+        <rect x="14" y="12" width="7" height="9" rx="1"/>
+        <rect x="3" y="16" width="7" height="5" rx="1"/>
       </svg>
-      <span>RH</span>
-      <span class="nav-badge">Ativo</span>
+      <span>Painel Geral</span>
+    </a>
+
+    <a href="#" class="nav-item" data-tab="relatorio" onclick="switchTab('relatorio', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <line x1="9" y1="3" x2="9" y2="21"/>
+        <line x1="15" y1="3" x2="15" y2="21"/>
+        <line x1="3" y1="9" x2="21" y2="9"/>
+        <line x1="3" y1="15" x2="21" y2="15"/>
+      </svg>
+      <span>Relatório Anual</span>
+    </a>
+
+    <a href="#" class="nav-item" data-tab="rh" onclick="switchTab('rh', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      <span>Fechamento RH</span>
     </a>
 
     <a href="#" class="nav-item" data-tab="drive" onclick="switchTab('drive', this)">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M22 12.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9"/>
-        <path d="m16 2-2 4H6l-2-4"/>
-        <path d="m8 2 2 4"/>
-        <path d="m12 2 2 4"/>
         <circle cx="19" cy="19" r="3"/>
         <path d="M22 22 20.5 20.5"/>
+        <path d="M22 12.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9"/>
       </svg>
       <span>Drive</span>
       <span class="nav-badge soon">Em breve</span>
@@ -63,7 +154,6 @@
         <rect x="2" y="3" width="20" height="14" rx="2"/>
         <path d="M8 21h8"/>
         <path d="M12 17v4"/>
-        <path d="M7 8h.01M12 8h.01M17 8h.01M7 12h.01M12 12h.01M17 12h.01"/>
       </svg>
       <span>Sigss</span>
       <span class="nav-badge soon">Em breve</span>
@@ -71,53 +161,174 @@
   </nav>
 
   <div class="sidebar-footer">
-    <div class="version-tag">v1.0.0 · Betim/MG</div>
+    <div class="version-tag">v2.0.0 · Betim/MG</div>
   </div>
 </aside>
 
-<!-- MAIN -->
+<!-- MAIN CONTENT -->
 <main class="main-content">
 
   <!-- TOPBAR -->
   <header class="topbar">
-    <div class="topbar-title" id="topbarTitle">Recursos Humanos</div>
+    <div class="topbar-title" id="topbarTitle">Painel Geral</div>
     <div class="topbar-meta">
       <div class="meta-dot"></div>
-      <span id="topbarSub">Importação e consolidação por centro de custo</span>
+      <span id="topbarSub">Status geral de conciliações e importações</span>
     </div>
   </header>
 
-  <!-- ===== TAB: RH ===== -->
-  <div id="tab-rh" class="tab-content active">
-
-    <!-- IMPORTAÇÃO -->
-    <section class="section-card">
-      <div class="row mb-4">
-
-    <div class="col-md-4">
-
-        <label class="form-label fw-bold">
-            Ano
-        </label>
-
-        <select
-            id="anoSelecionado"
-            class="form-select"
-        ></select>
-
+  <!-- ===== TAB: PAINEL GERAL (DASHBOARD) ===== -->
+  <div id="tab-dashboard" class="tab-content active">
+    <!-- BANNER DE BEM-VINDO -->
+    <div class="section-card section-welcome">
+      <h1 class="welcome-title">Olá, <span id="welcomeUserName">Usuário</span>! 👋</h1>
+      <p class="welcome-desc">
+        Bem-vindo ao <strong>ApuraSUS Consolidador & Orientador</strong>. Esta ferramenta foi desenvolvida por 
+        <strong>Guilherme Paicheco Ferreira</strong> para organizar as pendências e simplificar o lançamento de custos nas unidades. 
+        Por enquanto, focamos na parte mais complexa: <strong>Custos Pessoais (RH)</strong>.
+      </p>
     </div>
 
-    <div class="col-md-4">
+    <!-- PASSO 1: RELATÓRIOS DO APURASUS -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">Passo 1: Importar Relatório Anual do ApuraSUS</h2>
+          <p class="section-desc">Extraia e carregue o relatório com o que já foi lançado. Acesse o <a href="http://apurasus.saude.gov.br/apurasus/login.jsf" target="_blank" class="accent-link">ApuraSUS Oficial</a>.</p>
+        </div>
+      </div>
 
-        <label class="form-label fw-bold">
-            Mês
-        </label>
+      <div class="instruction-box mb-4">
+        <h5 class="fw-bold fs-6 mb-2">Instruções para download no ApuraSUS:</h5>
+        <ul class="instruction-list">
+          <li>Faça login no portal do ApuraSUS da sua unidade.</li>
+          <li>Acesse a seção de <strong>Relatórios / Consolidação Anual</strong>.</li>
+          <li>Selecione períodos de no máximo <strong>12 meses</strong> para obter relatórios completos.</li>
+          <li>Exporte em formato <strong>CSV</strong> ou <strong>XLSX</strong> e carregue no respectivo bloco abaixo.</li>
+        </ul>
+      </div>
 
-        <select
-            id="mesSelecionado"
-            class="form-select"
-        >
+      <!-- CONTAINER DE BLOCOS GERADOS VIA JS -->
+      <div id="containerBlocosImportacao" class="row g-3">
+        <!-- Gerado dinamicamente -->
+      </div>
+    </section>
 
+    <!-- PASSO 2: FOLHA DE PAGAMENTO SGI/SIGA -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon accent-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="9" y1="3" x2="9" y2="21"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">Passo 2: Extrair e Conciliar Folhas de Pagamento (SGI/SIGA)</h2>
+          <p class="section-desc">Acesse o <a href="https://sgi.betim.mg.gov.br/siga/Logar.aspx?ReturnUrl=/siga/default.aspx" target="_blank" class="accent-link">Portal SIGA Betim</a>.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <p class="step-text">Entre no portal <strong>SIGA</strong>, realize o login da unidade e clique em <strong>Consultar</strong>.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <p class="step-text">Escolha o mês e o ano que deseja lançar e efetue a busca da folha de pagamento.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <p class="step-text">No rodapé da tabela gerada, selecione o formato para exportação como <strong>XLSX</strong>.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <p class="step-text">Renomeie o arquivo para <strong>mês-ano</strong> (ex: <em>04-2026.xlsx</em>) para manter a pasta organizada.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <button class="btn-primary-custom" onclick="switchTab('rh', document.querySelector('[data-tab=rh]'))">
+          Ir para Fechamento de Mês (Conciliar)
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== TAB: RELATÓRIO ANUAL (MATRIZ) ===== -->
+  <div id="tab-relatorio" class="tab-content">
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon accent-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="9" y1="3" x2="9" y2="21"/>
+            <line x1="15" y1="3" x2="15" y2="21"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="3" y1="15" x2="21" y2="15"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">Matriz Anual de Lançamentos</h2>
+          <p class="section-desc">Exibe todos os valores consolidados importados do ApuraSUS. Células em amarelo <span class="badge bg-warning text-dark">R$ 0,00</span> indicam possíveis pendências.</p>
+        </div>
+      </div>
+
+      <!-- Filtro por Centro de Custo para despoluir a tela se necessário -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <label class="modal-label">Filtrar por Centro de Custo</label>
+          <select id="filtroCentroMatriz" class="form-select">
+            <option value="TODOS">Todos os Centros de Custo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table" id="tabelaMatrizAnual">
+          <thead>
+            <tr id="cabecalhoMatriz">
+              <th>Custo / Centro</th>
+              <!-- Meses dinâmicos -->
+            </tr>
+          </thead>
+          <tbody id="corpoMatriz">
+            <!-- Linhas de custo dinâmicas -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== TAB: FECHAMENTO RH ===== -->
+  <div id="tab-rh" class="tab-content">
+    <!-- CONTROLES DE FECHAMENTO -->
+    <section class="section-card">
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Ano do Fechamento</label>
+          <select id="anoSelecionado" class="form-select"></select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Mês do Fechamento</label>
+          <select id="mesSelecionado" class="form-select">
             <option value="01">Janeiro</option>
             <option value="02">Fevereiro</option>
             <option value="03">Março</option>
@@ -130,23 +341,15 @@
             <option value="10">Outubro</option>
             <option value="11">Novembro</option>
             <option value="12">Dezembro</option>
-
-        </select>
-
-    </div>
-
-    <div class="col-md-4 d-flex align-items-end">
-
-        <button
-            id="btnResetarCompetencia"
-            class="btn btn-danger w-100"
-        >
+          </select>
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+          <button id="btnResetarCompetencia" class="btn btn-outline-primary w-100">
             Resetar Competência
-        </button>
+          </button>
+        </div>
+      </div>
 
-    </div>
-
-</div>
       <div class="section-header">
         <div class="section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -156,8 +359,8 @@
           </svg>
         </div>
         <div>
-          <h2 class="section-title">Importar Planilha</h2>
-          <p class="section-desc">Selecione o arquivo .xlsx exportado do sistema de folha de pagamento</p>
+          <h2 class="section-title">Importar Planilha do SGI/SIGA</h2>
+          <p class="section-desc">Selecione o arquivo da folha correspondente ao mês para classificar e gerar os totais</p>
         </div>
       </div>
 
@@ -172,7 +375,7 @@
               <line x1="9" y1="15" x2="15" y2="15"/>
             </svg>
           </div>
-          <span class="upload-main-text">Clique para selecionar o arquivo</span>
+          <span class="upload-main-text">Clique para selecionar a planilha de Folha (SIGA)</span>
           <span class="upload-sub-text">Formatos aceitos: .xlsx, .xls</span>
         </label>
       </div>
@@ -188,7 +391,7 @@
       </button>
     </section>
 
-    <!-- CLASSIFICAÇÃO -->
+    <!-- CLASSIFICAÇÃO DE FUNCIONÁRIOS -->
     <section id="blocoClassificacao" class="section-card d-none">
       <div class="section-header">
         <div class="section-icon">
@@ -233,7 +436,7 @@
       </button>
     </section>
 
-    <!-- CONSOLIDAÇÃO -->
+    <!-- CONSOLIDAÇÃO FINAL DO MÊS -->
     <section id="blocoConsolidacao" class="section-card d-none">
       <div class="section-header">
         <div class="section-icon accent-green">
@@ -242,8 +445,8 @@
           </svg>
         </div>
         <div>
-          <h2 class="section-title">Consolidação Final</h2>
-          <p class="section-desc">Resultado agrupado por centro de custo, pronto para lançamento</p>
+          <h2 class="section-title">Consolidação Final do Mês</h2>
+          <p class="section-desc">Resultado calculado para lançamentos por centro de custo</p>
         </div>
         <button id="btnCopiarTabela" class="btn-dark-custom ms-auto">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -262,7 +465,7 @@
               <th class="text-end">Rem. CLT</th>
               <th class="text-end">Rem. Municipal</th>
               <th class="text-end">Ben. Estatutário</th>
-              <th class="text-end">Ben. Municipal</th>
+              <th class="text-end">Ben. CLT</th>
               <th class="text-end">Hora Extra</th>
             </tr>
           </thead>
@@ -270,8 +473,44 @@
           <tfoot id="rodapeConsolidacao"></tfoot>
         </table>
       </div>
-    </section>
 
+      <!-- AUDITORIA / COMPARATIVO CONTRA APURASUS -->
+      <div class="mt-5 border-top pt-4">
+        <div class="section-header mb-3">
+          <div class="section-icon accent-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="section-title">Auditorias e Divergências (SIGA vs. ApuraSUS)</h3>
+            <p class="section-desc">Comparativo de valores calculados contra os relatórios lançados na competência atual.</p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Centro de Custo</th>
+                <th>Categoria de Custo</th>
+                <th class="text-end">Valor Calculado (SIGA)</th>
+                <th class="text-end">Valor Lançado (ApuraSUS)</th>
+                <th class="text-end">Divergência / Pendência</th>
+                <th class="text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody id="corpoAuditoria">
+              <tr>
+                <td colspan="6" class="text-center text-muted">Aguardando geração da consolidação para auditar...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </div>
 
   <!-- ===== TAB: DRIVE ===== -->
@@ -285,17 +524,14 @@
         </div>
         <div class="construction-icon-center">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M22 12.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9"/>
-            <path d="m16 2-2 4H6l-2-4"/>
-            <path d="m8 2 2 4"/>
-            <path d="m12 2 2 4"/>
             <circle cx="19" cy="19" r="3"/>
             <path d="M22 22 20.5 20.5"/>
+            <path d="M22 12.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9"/>
           </svg>
         </div>
       </div>
       <h2 class="construction-title">Drive</h2>
-      <p class="construction-text">Este módulo está sendo desenvolvido e estará disponível em breve.</p>
+      <p class="construction-text">Este módulo está sendo desenvolvido e estará disponível em breve para integrar arquivos do Drive.</p>
       <div class="construction-tag">Em construção</div>
     </div>
   </div>
@@ -313,19 +549,18 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <rect x="2" y="3" width="20" height="14" rx="2"/>
             <path d="M8 21h8"/><path d="M12 17v4"/>
-            <path d="M7 8h.01M12 8h.01M17 8h.01M7 12h.01M12 12h.01M17 12h.01"/>
           </svg>
         </div>
       </div>
       <h2 class="construction-title">Sigss</h2>
-      <p class="construction-text">Este módulo está sendo desenvolvido e estará disponível em breve.</p>
+      <p class="construction-text">Este módulo está sendo desenvolvido e estará disponível em breve para integração de dados.</p>
       <div class="construction-tag">Em construção</div>
     </div>
   </div>
 
 </main>
 
-<!-- MODAL -->
+<!-- MODAL: NOVO CENTRO DE CUSTO -->
 <div class="modal fade" id="modalCentro">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content custom-modal">
@@ -345,25 +580,60 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="app.js"></script>
-<script>
-function switchTab(tab, el) {
-  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('tab-' + tab).classList.add('active');
+<!-- MODAL: AJUSTAR CÉLULA / JUSTIFICAR LANÇAMENTO -->
+<div class="modal fade" id="modalLancamento">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+      <div class="modal-header custom-modal-header">
+        <h5 class="modal-title" id="tituloModalLancamento">Ajustar Status do Lançamento</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body custom-modal-body">
+        <div class="mb-3">
+          <p class="fw-bold mb-1" id="detalheCustoModal"></p>
+          <p class="text-muted fs-7" id="detalheDataModal"></p>
+        </div>
+        
+        <label class="modal-label">Definir Status</label>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="statusLancamento" id="statusPendente" value="pendente">
+          <label class="form-check-label fw-bold text-danger" for="statusPendente">
+            🔴 Pendente de Lançamento
+          </label>
+        </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="statusLancamento" id="statusLancado" value="lancado">
+          <label class="form-check-label fw-bold text-success" for="statusLancado">
+            🟢 Lançado no ApuraSUS
+          </label>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="statusLancamento" id="statusJustificado" value="justificado">
+          <label class="form-check-label fw-bold text-warning" for="statusJustificado">
+            🟡 Valor Justificado (Ignorar)
+          </label>
+        </div>
 
-  const titles = { rh: 'Recursos Humanos', drive: 'Drive', sigss: 'Sigss' };
-  const subs = {
-    rh: 'Importação e consolidação por centro de custo',
-    drive: 'Integração com armazenamento de arquivos',
-    sigss: 'Integração com o sistema Sigss'
-  };
-  document.getElementById('topbarTitle').textContent = titles[tab];
-  document.getElementById('topbarSub').textContent = subs[tab];
-}
-</script>
+        <div class="mb-3">
+          <label class="modal-label">Justificativa / Comentário</label>
+          <textarea id="justificativaTexto" class="custom-input" rows="3" placeholder="Insira o motivo deste lançamento (Ex: não houve contratação temporária este mês)."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer custom-modal-footer">
+        <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" id="btnSalvarLancamento" class="btn-modal-save">Salvar Ajuste</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/processor.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
 
 </body>
 </html>
